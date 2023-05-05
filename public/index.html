@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>Application AngularJs / NodeJs</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/UsersController.js"></script>
+  </head>
+  <body ng-controller="UsersController">
+    <h1>Utilisateurs</h1>
+    <button ng-click="sortBy('website')">Trier par Site</button>
+    <button ng-click="sortBy('email')">Trier par email</button>
+    <button ng-click="exportUsers()">Export CSV</button>
+    <div class="form-group">
+      Rechercher :
+      <input type="text" class="form-control" ng-model="searchTerm" />
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Nom Utilisateur</th>
+          <th>Email</th>
+          <th>Mot de passe</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          ng-repeat="user in filteredUsers = (users | filter: {website: searchTerm})"
+        >
+          <td ng-if="!editingUser || editingUser.id !== user.id">
+            {{ user.website }}
+          </td>
+          <td ng-if="editingUser && editingUser.id === user.id">
+            <input type="text" ng-model="editingUser.website" />
+          </td>
+          <td ng-if="!editingUser || editingUser.id !== user.id">
+            {{ user.name }}
+          </td>
+          <td ng-if="editingUser && editingUser.id === user.id">
+            <input type="email" ng-model="editingUser.name" />
+          </td>
+          <td ng-if="!editingUser || editingUser.id !== user.id">
+            {{ user.email }}
+          </td>
+          <td ng-if="editingUser && editingUser.id === user.id">
+            <input type="text" ng-model="editingUser.email" />
+          </td>
+          <td ng-if="!editingUser || editingUser.id !== user.id">
+            {{ user.password }}
+          </td>
+          <td ng-if="editingUser && editingUser.id === user.id">
+            <input type="text" ng-model="editingUser.password" />
+          </td>
+          <td>
+            <button
+              ng-if="!editingUser || editingUser.id !== user.id"
+              ng-click="editUser(user)"
+            >
+              Editer
+            </button>
+            <button
+              ng-if="editingUser && editingUser.id === user.id"
+              ng-click="saveUser()"
+            >
+              Sauvegarder
+            </button>
+            <button ng-click="deleteUser(user)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Ajouter un utilisateur</h2>
+    <form ng-submit="addUser()">
+      <div class="form-group">
+        <label for="website">Site :</label>
+        <input
+          type="text"
+          class="form-control"
+          id="website"
+          ng-model="newUser.website"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="name">Nom d'utilisateur :</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          ng-model="newUser.name"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail :</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          ng-model="newUser.email"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe :</label>
+        <input
+          type="text"
+          class="form-control"
+          id="password"
+          ng-model="newUser.password"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+
+    <div ng-if="editingUser">
+      <h2>Editer un utilisateur</h2>
+      <form ng-submit="saveUser()">
+        <label for="website">Site : </label>
+        <input type="text" id="website" ng-model="editingUser.website" />
+        <br />
+        <label for="name">Nom d'utilisateur : </label>
+        <input type="text" id="name" ng-model="editingUser.name" />
+        <br />
+        <label for="email">E-mail : </label>
+        <input type="email" id="email" ng-model="editingUser.email" />
+        <br />
+        <label for="password">Mot de passe : </label>
+        <input type="text" id="password" ng-model="editingUser.password" />
+        <br />
+        <button type="submit" ng-click="saveUser()">Sauvegarder</button>
+        <button type="button" ng-click="cancelEdit()">Annuler</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "projet-angularjs-nodejs",
+  "version": "1.0.0",
+  "description": "Projet NodeJs et AngularJs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular-material": "^1.1.24",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "express-admin": "^2.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.2.4"
+  }
+}
